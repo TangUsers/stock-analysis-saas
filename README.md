@@ -15,6 +15,11 @@
 
 ## 🚀 Live Demo
 
+### Frontend (Vercel)
+- **Web App**: [https://stock-analysis-saas.vercel.app](https://stock-analysis-saas.vercel.app)
+- **Status**: ✅ Deployed
+
+### Backend API (Railway)
 - **API Base URL**: `https://stockvision-api.up.railway.app`
 - **API Documentation**: `https://stockvision-api.up.railway.app/docs`
 - **Health Check**: `https://stockvision-api.up.railway.app/api/health`
