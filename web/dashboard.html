@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘 - StockAI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-chart-line"></i> StockAI
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>仪表盘</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-search"></i>
+                    <span>股票搜索</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-trophy"></i>
+                    <span>排行榜</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-star"></i>
+                    <span>我的自选</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>持仓分析</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-newspaper"></i>
+                    <span>市场资讯</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>设置</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>退出登录</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <button class="sidebar-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="搜索股票代码或名称..." id="stockSearch">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="icon-btn" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="icon-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </button>
+                    <div class="user-menu">
+                        <img src="https://ui-avatars.com/api/?name=User&background=4F46E5&color=fff" alt="User" class="avatar">
+                        <span class="username">投资者</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <!-- 市场概览 -->
+                <section class="market-overview">
+                    <div class="market-card">
+                        <div class="market-info">
+                            <span class="market-name">上证指数</span>
+                            <span class="market-value">3,245.67</span>
+                            <span class="market-change positive">+1.23%</span>
+                        </div>
+                        <canvas id="shChart" class="mini-chart"></canvas>
+                    </div>
+                    <div class="market-card">
+                        <div class="market-info">
+                            <span class="market-name">深证成指</span>
+                            <span class="market-value">11,890.23</span>
+                            <span class="market-change negative">-0.45%</span>
+                        </div>
+                        <canvas id="szChart" class="mini-chart"></canvas>
+                    </div>
+                    <div class="market-card">
+                        <div class="market-info">
+                            <span class="market-name">创业板指</span>
+                            <span class="market-value">2,456.78</span>
+                            <span class="market-change positive">+2.10%</span>
+                        </div>
+                        <canvas id="cyChart" class="mini-chart"></canvas>
+                    </div>
+                </section>
+
+                <div class="dashboard-grid">
+                    <!-- 个股搜索 -->
+                    <section class="card stock-search">
+                        <div class="card-header">
+                            <h2><i class="fas fa-search"></i> 个股搜索</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="search-form">
+                                <input type="text" placeholder="输入股票代码或名称..." id="stockSearchInput">
+                                <button class="btn btn-primary" onclick="searchStock()">
+                                    <i class="fas fa-search"></i> 搜索
+                                </button>
+                            </div>
+                            <div class="quick-tags">
+                                <span class="tag">科技</span>
+                                <span class="tag">消费</span>
+                                <span class="tag">医药</span>
+                                <span class="tag">金融</span>
+                                <span class="tag">新能源</span>
+                                <span class="tag">半导体</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 排行榜 -->
+                    <section class="card rankings">
+                        <div class="card-header">
+                            <h2><i class="fas fa-trophy"></i> 排行榜</h2>
+                            <div class="tabs">
+                                <button class="tab active" data-tab="gainers">涨幅榜</button>
+                                <button class="tab" data-tab="losers">跌幅榜</button>
+                                <button class="tab" data-tab="volume">成交榜</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content active" id="gainers">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>排名</th>
+                                            <th>股票</th>
+                                            <th>价格</th>
+                                            <th>涨幅</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="gainersList">
+                                        <tr>
+                                            <td>1</td>
+                                            <td><span class="stock-name">宁德时代</span> <span class="stock-code">300750</span></td>
+                                            <td>¥245.67</td>
+                                            <td class="positive">+8.23%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><span class="stock-name">比亚迪</span> <span class="stock-code">002594</span></td>
+                                            <td>¥312.45</td>
+                                            <td class="positive">+6.78%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td><span class="stock-name">隆基绿能</span> <span class="stock-code">601012</span></td>
+                                            <td>¥45.23</td>
+                                            <td class="positive">+5.67%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td><span class="stock-name">药明康德</span> <span class="stock-code">603259</span></td>
+                                            <td>¥89.34</td>
+                                            <td class="positive">+4.56%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td><span class="stock-name">五粮液</span> <span class="stock-code">000858</span></td>
+                                            <td>¥156.78</td>
+                                            <td class="positive">+3.89%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 我的自选 -->
+                    <section class="card watchlist">
+                        <div class="card-header">
+                            <h2><i class="fas fa-star"></i> 我的自选</h2>
+                            <button class="btn btn-sm btn-outline" onclick="addToWatchlist()">
+                                <i class="fas fa-plus"></i> 添加
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>股票</th>
+                                        <th>价格</th>
+                                        <th>涨跌幅</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="watchlist">
+                                    <tr>
+                                        <td><span class="stock-name">贵州茅台</span> <span class="stock-code">600519</span></td>
+                                        <td>¥1,789.90</td>
+                                        <td class="positive">+2.34%</td>
+                                        <td>
+                                            <button class="icon-btn-sm"><i class="fas fa-chart-line"></i></button>
+                                            <button class="icon-btn-sm remove"><i class="fas fa-times"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="stock-name">腾讯控股</span> <span class="stock-code">0700.HK</span></td>
+                                        <td>¥365.40</td>
+                                        <td class="positive">+1.56%</td>
+                                        <td>
+                                            <button class="icon-btn-sm"><i class="fas fa-chart-line"></i></button>
+                                            <button class="icon-btn-sm remove"><i class="fas fa-times"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="stock-name">阿里巴巴</span> <span class="stock-code">9988.HK</span></td>
+                                        <td>¥78.90</td>
+                                        <td class="negative">-0.89%</td>
+                                        <td>
+                                            <button class="icon-btn-sm"><i class="fas fa-chart-line"></i></button>
+                                            <button class="icon-btn-sm remove"><i class="fas fa-times"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- 持仓分析图表 -->
+                    <section class="card chart-section">
+                        <div class="card-header">
+                            <h2><i class="fas fa-chart-pie"></i> 收益走势</h2>
+                            <div class="chart-period">
+                                <button class="period-btn active">日</button>
+                                <button class="period-btn">周</button>
+                                <button class="period-btn">月</button>
+                                <button class="period-btn">年</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="portfolioChart"></canvas>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // 初始化仪表盘
+        document.addEventListener('DOMContentLoaded', function() {
+            initDashboard();
+        });
+    </script>
+</body>
+</html>
