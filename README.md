@@ -5,12 +5,19 @@
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/Python-3.8+-green.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-cyan.svg)
+![Deployment](https://img.shields.io/badge/Deployment-Railway-purple.svg)
 
 **Open source stock analysis tools and documentation**
 
-[English](./README.md) | [中文](./README_CN.md)
+[English](./README.md) | [中文](./README_CN.md) | [Demo](https://stockvision-api.up.railway.app)
 
 </div>
+
+## 🚀 Live Demo
+
+- **API Base URL**: `https://stockvision-api.up.railway.app`
+- **API Documentation**: `https://stockvision-api.up.railway.app/docs`
+- **Health Check**: `https://stockvision-api.up.railway.app/api/health`
 
 ## 📊 Overview
 
