@@ -13,17 +13,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.10'
+          node-version: '20'
           
       - name: Install Railway CLI
-        run: |
-          pip install railway
-          
+        run: npm i -g @railway/cli
+        
       - name: Deploy to Railway
-        run: |
-          python -m railway up --detach
+        run: railway up
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
